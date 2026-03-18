@@ -19,4 +19,5 @@ This is my repo for STATS 220(updated version)
 * This is the game I play everyday :[genshin impact](https://genshin.hoyoverse.com/en/)
 * This is my favourite game on steam ：[split fiction](https://en.wikipedia.org/wiki/Split_Fiction)
 
-A meme that captures how I currently feel about my university studies is ![](https://tenor.com/zh-CN/view/lerolero-itswill-do-this-dance-cat-dance-gif-10140238493970648827)
+A meme that captures how I currently feel about my university studies is:
+  ![](https://tenor.com/zh-CN/view/lerolero-itswill-do-this-dance-cat-dance-gif-10140238493970648827)
