@@ -10,8 +10,11 @@ This is my repo for STATS 220(updated version :)).
 * I am interested in learning about using R for data analysis.
 
 ## More of me:
-1.My favourite food is **hot pot**.
-2.I like playing *computer games*, *reading books*, *climbing* and so on.
+
+<---!numbered lists!--->
+
+1. My favourite food is **hot pot**.
+2. I like playing *computer games*, *reading books*, *climbing* and so on.
 
 ## computer game recommendation
 * This is the game I play everyday :[genshin impact](https://genshin.hoyoverse.com/en/)
