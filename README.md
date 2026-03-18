@@ -1,7 +1,7 @@
 # stats220
 
 
-This is my repo for STATS 220(updated version :) 
+This is my repo for STATS 220(updated version) 
 
 ## A little about me:
 
