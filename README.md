@@ -11,12 +11,11 @@ This is my repo for STATS 220(updated version :)).
 
 ## More of me:
 
-<---!numbered lists!--->
-
 1. My favourite food is **hot pot**.
 2. I like playing *computer games*, *reading books*, *climbing* and so on.
 
 ## computer game recommendation
+
 * This is the game I play everyday :[genshin impact](https://genshin.hoyoverse.com/en/)
 * This is my favourite game on steam ：[split fiction](https://en.wikipedia.org/wiki/Split_Fiction)
 
