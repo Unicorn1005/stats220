@@ -1,0 +1,299 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE,fig.width = 6,
+                      fig.height = 4)
+
+library(tidyverse)
+library(ggplot2)
+
+```
+
+```{css, echo = FALSE}
+h2 {
+  font-size: 28px;
+  text-align : center;
+  font-family: "Georgia", "Times New Roman", serif;
+  color: #C279AD;
+}
+
+h3 {
+  font-family: "Georgia", serif;
+  font-weight: bold;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h4 {
+    text-align : right;
+    font-style: italic;
+}
+
+body {
+  font-size: 16px; 
+  font-weight: bold;
+  font-family: "Arial", sans-serif;  
+  line-height: 1.6;         
+  color: #333333;            
+}
+
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+```
+
+## Eating Habits Observation Log
+
+#### Author : Jiayi, Xue
+```{r, echo = FALSE}
+#import data
+
+url <- 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRD8CXYwlZ3FDq47vV2PmK2Dj97yOQK7gyq4YVLDhQbnmznzmMQvlbWsH6swKYFCRsssY2YB4qinJ-F/pub?gid=444440727&single=true&output=csv'
+logged_data <- read.csv(url)
+
+
+latest_data <- logged_data %>% rename(sex = Your.gender,
+                                      age_group = Your.age.group,
+                                      status = Your.current.status.,
+                                      food_type = What.type.of.food.do.you.usually.eat.,
+                                      num_of_meals = How.many.meals.do.you.have.every.day.,
+                                      meal_time = Do.you.usually.have.meals.on.time.,
+                                      largest_meal = Which.meal.is.your.most.substantial.,
+                                      health = How.would.you.describe.your.overall.health..,
+                                      )
+
+
+
+```
+
+
+
+
+### 1. Background information
+```{r}
+total <- length(latest_data$status)
+student <- sum(latest_data$status == 'Student')
+working <- sum(latest_data$status == 'Working')
+
+prop.students <- student/total * 100
+prop.working <- working/total  * 100
+
+
+
+paste0("There are ",total, " observations.", round(prop.students),"% of them are students,", round(prop.working), "% are employees.", "Most of them are young people(my friends and some classmates).")
+
+latest_data%>%
+  ggplot(aes(x = status, fill = age_group)) +
+  geom_bar() +
+  theme_minimal() +
+  labs(title = " Participants background ",
+       subtitle = 'stats220 2026',
+       x = 'status (Student/Working)'
+  )
+  
+
+```
+
+
+
+### 2. number of meals each day
+```{r} 
+min_meals <- latest_data$num_of_meals %>% min()
+
+max_meals <- latest_data$num_of_meals %>% max()
+
+mean_meals <- latest_data$num_of_meals %>% mean(na.rm = TRUE) %>% round()
+
+paste0("Based on my survey, the number of meals the participants eat each day is between ", min_meals, " and ", max_meals, ". On average they eat ", mean_meals, " meals everyday.")
+
+
+latest_data %>%
+  ggplot(aes(x = num_of_meals)) + 
+  geom_bar(fill = 'skyblue') + 
+  theme_minimal() +
+  labs(title = "How many meals do you have every day?",
+       subtitle = "stats220 2026",
+       x = 'number of meals')
+
+
+
+
+```
+
+
+
+### 3. food_type
+
+```{r}
+total <- length(latest_data$food_type)
+homecooked <-sum(latest_data$food_type == 'Home-cooked' )
+takeaway <- sum(latest_data$food_type == 'Takeaway' )
+
+prop.homecooked <- homecooked / total * 100
+prop.takeaway <- takeaway / total * 100
+
+paste0(round(prop.homecooked),"% of participants usually eat home-cooked food, and ",
+       round(prop.takeaway), "% of them eat takeaway more often.")
+
+latest_data %>%
+  ggplot(aes(x = food_type)) +
+  geom_bar(fill = "yellow") +
+  theme_minimal() +
+  labs(title = 'What type of food do you usually eat',
+       subtitle = 'stats220 2026',
+       x = "Food_type")
+```
+
+
+
+### 4. meal time
+
+```{r}
+
+sometimes <- sum(latest_data$meal_time == 'Sometimes')
+prop.sometimes <- sometimes / total * 100
+
+rarely <- sum(latest_data$meal_time == 'Rarely')
+prop.rarely <- rarely/total * 100
+
+often <- sum(latest_data$meal_time == "Often")
+prop.often <- often / total * 100
+
+never <- sum(latest_data$meal_time == 'Never')
+prop.never <- never/total * 100
+
+always <- sum(latest_data$meal_time == 'Always')
+prop.always <- always/total * 100
+
+paste0('Almost half of participants (', round(prop.sometimes), '%) just sometimes have meals on time.')
+
+paste0(round(prop.rarely), '% rarely have meals on time.')
+paste0(round(prop.often), '% often have meals on time.')
+paste0(round(prop.never), '% never have meals on time.')
+paste0(round(prop.always), '% always have meals on time.')
+
+
+ggplot(latest_data, aes(x = "", fill = meal_time)) +
+  geom_bar(width = 1) +           
+  coord_polar(theta = "y") +       
+  theme_minimal() +
+  labs(title = "Do you usually have meals on time?",
+       subtitle = "stats220 2026",
+       fill = "meal_time")
+  
+
+
+```
+
+
+
+
+
+### 5. largest_meal
+
+```{r}
+total <- length(latest_data$food_type)
+dinner <-sum(latest_data$largest_meal == 'dinner' )
+breakfast <- sum(latest_data$largest_meal == 'breakfast' )
+lunch <-sum(latest_data$largest_meal == 'lunch' )
+
+prop.dinner <- dinner / total * 100
+prop.breakfast <- breakfast / total * 100
+prop.lunch <- lunch / total * 100
+
+
+paste0('Participants who eat dinner the most take over(', round(prop.dinner),'%).' )
+
+
+
+latest_data %>%
+  ggplot(aes(x = largest_meal)) +
+  geom_bar(fill = "lightgreen") +
+  theme_minimal() +
+  labs(title = 'Which meal is your most substantial',
+       subtitle = 'stats220 2026',
+       x = "largest_meal")
+
+
+
+```
+
+
+
+### 6. Overall health
+```{r}
+
+
+
+min_health <- latest_data$health %>% min()
+
+max_health <- latest_data$health %>% max()
+
+mean_health <- latest_data$health %>% mean(na.rm = TRUE)  
+
+paste0(
+  "Participants rate their overall health between ",
+  min_health, " and ", max_health,
+  ". The average health rate is about ", round(mean_health), '.'
+)
+
+
+latest_data %>%
+  ggplot(aes(x = health)) +
+  geom_bar(fill = "pink") +
+  theme_minimal() +
+  labs(
+    title = 'How would you describe your overall health?',
+    subtitle = 'stats220 2026',
+    x = 'Overall health ( 1 for worst, 5 for best)',
+    y = 'Number of participants'
+  )
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+::: dynamic-comment
+
+For the participants’ background, most of them are young female students.
+
+The overall health condition is not high(`r round(mean_health)`/5), which is generally consistent with their eating habits. 
+
+On average, participants have `r round(mean_meals)` meals per day, and `r round(prop.homecooked)`% of them choose home-cooked meals instead of takeaway. This pattern aligns with recommended dietary guidelines, as home-cooked food is typically healthier than takeaway. In addition, having three meals per day is considered appropriate for maintaining good health, as most participants actually follow this pattern.
+
+However, the timeliness of meals may explain the relatively lower overall self-rated health. Almost `r round(prop.sometimes) `% of participants only sometimes eat their meals on time. Irregular eating patterns can lead to hormonal imbalance and other health issues, which may be one of the main reasons why participants do not rate their health more highly.
+
+Overall, the eating habits of the participants are generally good. Maintaining regular meal times is strongly recommended to further improve the health of young people.
+
+
+:::
+
